@@ -13,6 +13,43 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 5000);
     }
     
+    // Manga image size controls
+    const mangaImage = document.getElementById('manga-image');
+    const sizeUpBtn = document.getElementById('size-up');
+    const sizeDownBtn = document.getElementById('size-down');
+    
+    // Get initial width from CSS or default to 400px (smallest size)
+    let currentWidth = 400;
+    
+    // Try to get stored size preference
+    const storedWidth = localStorage.getItem('mangaImageWidth');
+    if (storedWidth) {
+        currentWidth = parseInt(storedWidth);
+        mangaImage.style.width = currentWidth + 'px';
+    }
+    
+    // Size control functions
+    function increaseSize() {
+        currentWidth += 50;
+        if (currentWidth > 1600) currentWidth = 1600; // Max size
+        updateImageSize();
+    }
+    
+    function decreaseSize() {
+        currentWidth -= 50;
+        if (currentWidth < 400) currentWidth = 400; // Min size
+        updateImageSize();
+    }
+    
+    function updateImageSize() {
+        mangaImage.style.width = currentWidth + 'px';
+        localStorage.setItem('mangaImageWidth', currentWidth.toString());
+    }
+    
+    // Add event listeners
+    if (sizeUpBtn) sizeUpBtn.addEventListener('click', increaseSize);
+    if (sizeDownBtn) sizeDownBtn.addEventListener('click', decreaseSize);
+    
     // Handle the mailing list form submission
     const mailingListForm = document.getElementById('mailing-list-form');
     
